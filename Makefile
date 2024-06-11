@@ -33,6 +33,9 @@ stop-jupyter: # Stop Jupyter Notebook
 	@docker stop jupyter-notebook >/dev/null 2>&1 || true
 	@docker rm jupyter-notebook >/dev/null 2>&1 || true
 
+install-kernel: # Install kernel for Jupyter Notebook
+	poetry run python -m ipykernel install --user --name=gd
+
 clean: stop-jupyter # Stop and remove all spark containers
 	@docker stop spark-master $(shell docker ps -q --filter "name=spark-worker") >/dev/null 2>&1 || true
 	@docker rm spark-master $(shell docker ps -aq --filter "name=spark-worker") >/dev/null 2>&1 || true
