@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "gd"
+version = "0.1.0"
+description = ""
+authors = ["Max Florentin <macsee13@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyspark = "^3.5.1"
+findspark = "^2.0.1"
+ipykernel = "^6.29.4"
+black = "^24.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
