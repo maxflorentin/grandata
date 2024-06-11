@@ -27,7 +27,8 @@ spark-workers: # Start the spark workers
 		done
 
 start-jupyter: stop-jupyter # Start Jupyter Notebook
-	docker run -d -p $(JUPYTER_PORT):$(JUPYTER_PORT) --name jupyter-notebook jupyter/pyspark-notebook start-notebook.sh --NotebookApp.token=''
+	docker run -d -p $(JUPYTER_PORT):8888 --name jupyter-notebook -v $(PWD)/notebooks:/home/jovyan/work jupyter/pyspark-notebook start-notebook.sh --NotebookApp.token=''
+
 
 stop-jupyter: # Stop Jupyter Notebook
 	@docker stop jupyter-notebook >/dev/null 2>&1 || true
