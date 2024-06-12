@@ -111,3 +111,18 @@ docker cp jupyter-notebook:/home/jovyan/extracted_files/top_100_users_billing.pa
    - The plot is ordered by the hour of the day to ensure correct chronological representation.
 
    ![histogram](https://github.com/maxflorentin/grandata/blob/main/histogram.png?raw=true)
+
+## Exercise 2 - General questions
+
+1. **Priorizar procesos productivos sobre análisis exploratorios**
+   Para priorizar los pipelines productivos sobre jobs de análisis exploratorios en Hadoop, utilizaría YARN para crear queues separadas, asignando una mayor cantidad de recursos y prioridad a los trabajos productivos.  Configuraría límites específicos de uso de recursos para cada queue en el capacity-scheduler, asegurando que los procesos críticos siempre tengan acceso a los recursos necesarios para funcionar de manera óptima.
+   Adicionalmente, establecería cuotas y políticas de prioridad dentro de las colas para garantizar que los trabajos productivos tengan preferencia sobre los exploratorios.
+
+**Estrategia para administrar la ejecución de procesos productivos**
+Dado que los procesos productivos del pipeline utilizan intensivamente CPU y memoria, programaría su ejecución durante ventanas de tiempo en coordinación con los usuarios para minimizar la competencia por los recursos.  Utilizaría herramientas de scheduling como Apache Airflow para definir y orquestar estos trabajos, asegurando que se ejecuten en los momentos más adecuados. Además, implementaría un monitoreo continuo con herramientas como Ganglia o Cloudera Manager para supervisar el uso de recursos y ajustar la planificación según sea necesario, optimizando así el rendimiento y la disponibilidad del clúster
+
+2. Para resolver los problemas de performance en consultas cruzadas con una tabla de alta transaccionalidad y gran volumen de datos actualizados diariamente, una solución efectiva sería implementar Apache Iceberg. Iceberg facilita la gestión de operaciones de escritura concurrentes sin bloquear las lecturas, lo cual permite actualizaciones constantes sin afectar las consultas. Además, ofrece particionamiento automático y eficiente, índices avanzados y compresión, lo que optimiza significativamente el rendimiento de las consultas. Al manejar de manera eficaz la fragmentación y soportar el versionado de tablas, Iceberg garantiza un acceso rápido y eficiente a los datos, mejorando la performance general del Data Lake.
+
+3. Para garantizar que la mitad del clúster esté disponible para otros trabajos mientras ejecuta su proceso de Spark en un clúster Hadoop de 3 nodos (con 50 GB de memoria y 12 cores por nodo), configure su sesión de Spark para usar 12 GB de memoria por executor y 3 cores por executor, con 18 ejecutores en total (spark.executor.memory=12g, spark.executor.cores=3, spark.executor.instances=18).  Para habilitar la asignación dinámica de recursos en Spark v2.3, ajuste spark.dynamicAllocation.enabled=true, spark.dynamicAllocation.minExecutors=9, y spark.dynamicAllocation.maxExecutors=18.
+   Puede configurar YARN para que cada nodo solo utilice la mitad de los recursos, ajustando yarn.nodemanager.resource.memory-mb a 24576 MB y yarn.nodemanager.resource.cpu-vcores a 6.
+   Aquí la documentación oficial de Spark v2.3 para más detalles sobre la configuración de la asignación dinámica de recursos y otros parámetros relacionados con la gestión de recursos.
