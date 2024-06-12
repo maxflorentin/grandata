@@ -40,12 +40,6 @@ Then, use the following command to start the Jupyter Notebook:
 make start-jupyter
 ```
 
-To install the kernel in Jupyter, use the following command:
-
-```bash
-make install-kernel
-```
-
 # Grandata challenge: Spark Data Processing and Analysis
 
 ## Overview
@@ -60,17 +54,24 @@ This notebook performs data processing and analysis on SMS event data using Apac
 
 ## Steps
 
-### 1. Setup
+### Open notebook and Load Data
 
-- **Initialize Spark session**: Start a Spark session to enable data processing.
-- **Load Data**: Read the events and free SMS destinations data from CSV files.
+1. **Initialize Spark session**: Open Jupyter Notebook saved in Jupyter lab (path: work/notebooks) with the name: ´grandata.ipynb´
+2. **Load Data**: Run the code blocks in the notebook.
+3. **Copy dataframe**: Copy the dataframe in your local environment using the following command:
 
-### 2. Data Cleaning
+```bash
+docker cp jupyter-notebook:/home/jovyan/extracted_files/top_100_users_billing.parquet . && mv top_100_users_billing.parquet/*.gz.parquet . && rm -r top_100_users_billing.parquet
+```
+
+## What the notebook does
+
+### Data Cleaning
 
 - **Filter Null Records**: Discard records where either `id_source` or `id_destination` is null.
 - **Convert Columns**: Ensure that relevant columns (`calls`, `seconds`, `sms`, `region`) are of numeric types.
 
-### 3. Calculate Total Billing
+### Calculate Total Billing
 
 - **Join DataFrames**: Join the events DataFrame with the free SMS destinations DataFrame to identify free SMS destinations.
 - **Compute Billing**: Apply billing rules based on the region and whether the destination is free. The rules are:
@@ -79,14 +80,14 @@ This notebook performs data processing and analysis on SMS event data using Apac
   - `$2.0` if the region is between 6 and 9.
 - **Aggregate Billing**: Sum the billing amounts to get the total billing.
 
-### 4. Identify Top 100 Users by Billing
+### Identify Top 100 Users by Billing
 
 - **Group by User**: Group the data by `id_source` and sum the billing amounts.
 - **Sort and Limit**: Sort the users by total billing amount in descending order and select the top 100.
 - **Hash IDs**: Create an MD5-hashed version of the user IDs.
 - **Save as Parquet**: Save the resulting DataFrame in Parquet format with gzip compression.
 
-### 5. Create Histogram of Calls by Hour
+### Create Histogram of Calls by Hour
 
 - **Aggregate Call Data**: Group the events data by the hour of the day and sum the number of calls.
 - **Plot Histogram**: Use Matplotlib to create a histogram of call counts by hour.
@@ -96,17 +97,17 @@ This notebook performs data processing and analysis on SMS event data using Apac
 1. **Total Billing Amount Calculation**:
 
    - The billing is calculated based on the given rules. The total billing amount is computed and displayed.
-   - Rules:
-     - `$0.0` if the destination is free.
-     - `$1.5` if the region is between 1 and 5.
-     - `$2.0` if the region is between 6 and 9.
+   - **Result**: 18998.00
 
 2. **Top 100 Users Dataset**:
 
    - The top 100 users by total billing amount are identified.
    - The dataset includes both the original and MD5-hashed IDs.
-   - The dataset is saved in Parquet format with gzip compression.
+   - The dataset is saved in Parquet format with gzip compression and copied to the local environment.
 
 3. **Call Histogram by Hour**:
+
    - The histogram of call counts by hour is created and plotted.
    - The plot is ordered by the hour of the day to ensure correct chronological representation.
+
+   ![histogram](https://github.com/maxflorentin/grandata/blob/main/histogram.png?raw=true)
