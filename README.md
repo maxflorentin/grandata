@@ -126,3 +126,54 @@ docker cp jupyter-notebook:/home/jovyan/extracted_files/top_100_users_billing.pa
 3. Para garantizar que la mitad del clúster esté disponible para otros trabajos mientras ejecuta su proceso de Spark en un clúster Hadoop de 3 nodos (con 50 GB de memoria y 12 cores por nodo), configure su sesión de Spark para usar 12 GB de memoria por executor y 3 cores por executor, con 18 ejecutores en total (spark.executor.memory=12g, spark.executor.cores=3, spark.executor.instances=18).  Para habilitar la asignación dinámica de recursos en Spark v2.3, ajuste spark.dynamicAllocation.enabled=true, spark.dynamicAllocation.minExecutors=9, y spark.dynamicAllocation.maxExecutors=18.
    Puede configurar YARN para que cada nodo solo utilice la mitad de los recursos, ajustando yarn.nodemanager.resource.memory-mb a 24576 MB y yarn.nodemanager.resource.cpu-vcores a 6.
    Aquí la documentación oficial de Spark v2.3 para más detalles sobre la configuración de la asignación dinámica de recursos y otros parámetros relacionados con la gestión de recursos.
+
+## Final Considerations
+
+It is always easier with SQL, I have added a very simple notebook using Jupyter and duckdb to consult the csv using SQL.
+If you are interested in reviewing it, it is located in a notebook called duckDB.ipynb
+
+```markdown
+1. **Clone the repository:**
+```
+
+git clone https://github.com/maxflorentin/grandata.git
+cd grandata
+
+```
+
+2. **Choose the feature branch:**
+
+```
+
+git checkout feature/Version
+
+```
+
+3. **Install dependencies with Poetry:**
+
+```
+
+poetry install
+
+```
+
+4. **Activate Poetry env:**
+
+```
+
+poetry shell
+
+```
+
+5. **Start Jupyter Notebook:**
+
+```
+
+make start-jupyter
+
+```
+
+6. **Open the notebook `duckDB.ipynb` on JupyterLab.**
+
+7. **Run code blocks.**
+```
