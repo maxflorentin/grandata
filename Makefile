@@ -1,6 +1,6 @@
-SPARK_VERSION := 3.2.0
-SCALA_VERSION := 2.12
-DOCKER_IMAGE := bde2020/spark-master:$(SPARK_VERSION)-hadoop3.2
+SPARK_VERSION := 2.3.4
+SCALA_VERSION := 2.11
+DOCKER_IMAGE := jupyter/pyspark-notebook  # Imagen preconstruida con Spark y Jupyter
 SPARK_MASTER_PORT := 7077
 SPARK_WORKER_COUNT := 2
 JUPYTER_PORT := 8888
@@ -30,7 +30,7 @@ start-jupyter: stop-jupyter
 	docker run -d -p $(JUPYTER_PORT):8888 --name jupyter-notebook \
 		-v $(PWD)/notebooks:/home/jovyan/work/notebooks \
 		-v $(PWD)/output:/home/jovyan/work/output \
-		jupyter/pyspark-notebook start-notebook.sh --NotebookApp.token=''
+		$(DOCKER_IMAGE) start-notebook.sh --NotebookApp.token=''
 
 stop-jupyter:
 	@docker stop jupyter-notebook >/dev/null 2>&1 || true
