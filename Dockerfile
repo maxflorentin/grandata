@@ -2,7 +2,7 @@ FROM openjdk:8-jdk
 
 RUN apt-get update && apt-get install -y scala python3-pip
 
-RUN pip3 install jupyter
+RUN pip3 install jupyter duckdb
 
 RUN curl -o /tmp/spark-2.3.4-bin-hadoop2.7.tgz \
   https://archive.apache.org/dist/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz && \
