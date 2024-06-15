@@ -132,48 +132,37 @@ docker cp jupyter-notebook:/home/jovyan/extracted_files/top_100_users_billing.pa
 It is always easier with SQL, I have added a very simple notebook using Jupyter and duckdb to consult the csv using SQL.
 If you are interested in reviewing it, it is located in a notebook called duckDB.ipynb
 
-```markdown
+
 1. **Clone the repository:**
-```
 
-git clone https://github.com/maxflorentin/grandata.git
-cd grandata
-
+```bash
+git clone https://github.com/maxflorentin/grandata.git && cd grandata
 ```
 
 2. **Choose the feature branch:**
 
-```
-
+```bash
 git checkout feature/Version
-
 ```
 
 3. **Install dependencies with Poetry:**
 
-```
-
+```bash
 poetry install
-
 ```
 
 4. **Activate Poetry env:**
 
-```
-
+```bash
 poetry shell
-
 ```
 
 5. **Start Jupyter Notebook:**
 
-```
-
+```bash
 make start-jupyter
-
 ```
 
 6. **Open the notebook `duckDB.ipynb` on JupyterLab.**
 
 7. **Run code blocks.**
-```
